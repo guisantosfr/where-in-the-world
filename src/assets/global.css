@@ -15,4 +15,10 @@
 
 body {
   font-family: 'Nunito Sans', sans-serif;
+  background: var(--very-dark-blue);
+  color: var(--white);
+}
+
+.container {
+  width: 90%;
 }
