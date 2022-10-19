@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
+import CountryCard from '../components/CountryCard.vue';
 import Header from '../components/Header.vue';
 import SearchBar from '../components/SearchBar.vue';
 
@@ -23,6 +24,17 @@ const region = ref('');
     </select>
   </div>
 
+  <ul class="countries__list">
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+  </ul>
+
 </template>
 
 <style scoped>
@@ -37,5 +49,9 @@ const region = ref('');
   border-radius: 8px;
 
   border-right: 1rem solid transparent;
+}
+
+.countries__list {
+  margin: 2rem auto;
 }
 </style>
