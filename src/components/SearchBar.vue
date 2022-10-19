@@ -11,13 +11,13 @@
 }
 
 .nosubmit input {
-  background: var(--dark-blue) url('../assets/icons/search.svg') no-repeat 15px center;
+  background: var(--dark-blue) url('../assets/icons/search.svg') no-repeat 30px center;
 
   display: block;
-  width: 85%;
+  width: 100%;
 
   margin: 1.5rem auto;
-  padding: 1rem 1rem 1rem 3.5rem;
+  padding: 1rem 1rem 1rem 5rem;
   border-radius: 8px;
 
   color: var(--white);
