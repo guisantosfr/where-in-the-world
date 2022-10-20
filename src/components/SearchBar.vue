@@ -24,7 +24,13 @@ input::placeholder {
 @media(min-width: 600px) {
   .nosubmit {
     margin: 0;
-    width: 60%;
+    width: 50%;
+  }
+}
+
+@media(min-width: 1000px) {
+  .nosubmit {
+    width: 40%;
   }
 }
 </style>

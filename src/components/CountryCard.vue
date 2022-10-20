@@ -1,13 +1,17 @@
+<script setup>
+const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
+</script>
+
 <template>
   <li class="country">
-    <img src="../assets/brazil-flag.png" alt="Brazil Flag">
+    <img :src="props?.flag" :alt="`${props.name} flag`">
 
     <div class="country__info">
-      <h3>Brazil</h3>
+      <h3>{{ props.name }}</h3>
 
-      <p>Population: <span>206,135,893</span></p>
-      <p>Region: <span>Americas</span></p>
-      <p>Capital: <span>Brasília</span></p>
+      <p>Population: <span>{{ props.population }}</span></p>
+      <p>Region: <span>{{ props.region }}</span></p>
+      <p>Capital: <span>{{ props.capital }}</span></p>
     </div>
   </li>
 </template>

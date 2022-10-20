@@ -1,11 +1,33 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
+
+import api from '../services/api';
+import getRandomNumbers from '../helpers/getRandomNumbers';
 
 import CountryCard from '../components/CountryCard.vue';
 import Header from '../components/Header.vue';
 import SearchBar from '../components/SearchBar.vue';
 
 const region = ref('');
+let homeCountriesList = ref([]);
+
+async function fetchRandomCountries() {
+  let allCountriesList = [];
+
+  await api.get('/all')
+    .then(response => {
+      allCountriesList = response.data;
+      const randomIndexes = getRandomNumbers(12, allCountriesList.length);
+
+      for (let index of randomIndexes) {
+        homeCountriesList.value.push(allCountriesList[index]);
+      }
+    })
+    .catch(error => console.error(error));
+}
+
+onMounted(fetchRandomCountries);
+
 </script>
 
 <template>
@@ -25,18 +47,8 @@ const region = ref('');
   </div>
 
   <ul class="countries__list">
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
-    <CountryCard />
+    <CountryCard v-for="country in homeCountriesList" :flag="country.flags.png" :name="country.name.common"
+      :population="country.population" :region="country.region" :capital="country.capital[0]" />
   </ul>
 
 </template>
@@ -78,6 +90,7 @@ const region = ref('');
     align-items: center;
 
     margin: 2.5rem;
+    width: auto;
   }
 
   .region {
