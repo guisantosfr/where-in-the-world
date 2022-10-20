@@ -54,4 +54,10 @@
     margin-right: 0;
   }
 }
+
+@media(min-width: 800px) {
+  .country {
+    max-width: 275px;
+  }
+}
 </style>

@@ -33,6 +33,10 @@ const region = ref('');
     <CountryCard />
     <CountryCard />
     <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
+    <CountryCard />
   </ul>
 
 </template>
@@ -73,7 +77,7 @@ const region = ref('');
     justify-content: space-between;
     align-items: center;
 
-    margin: 1.5rem 2.5rem;
+    margin: 2.5rem;
   }
 
   .region {
