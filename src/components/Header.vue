@@ -18,7 +18,7 @@ import moonIcon from '../assets/icons/moon.svg';
   background: var(--dark-blue);
 
   margin: auto;
-  padding: 2rem 1.5rem;
+  padding: 2.5rem;
 
   display: flex;
   justify-content: space-between;

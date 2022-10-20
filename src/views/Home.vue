@@ -53,5 +53,31 @@ const region = ref('');
 
 .countries__list {
   margin: 2rem auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@media(min-width: 600px) {
+  .countries__list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 1.5rem 2.5rem;
+  }
+
+  .region {
+    width: auto;
+  }
 }
 </style>

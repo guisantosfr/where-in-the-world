@@ -1,16 +1,9 @@
 <template>
-  <form class="nosubmit">
-    <input class="nosubmit" type="search" placeholder="Search for a country...">
-  </form>
+  <input class="nosubmit" type="search" placeholder="Search for a country...">
 </template>
 
 <style scoped>
 .nosubmit {
-  border: none;
-  padding: 0;
-}
-
-.nosubmit input {
   background: var(--dark-blue) url('../assets/icons/search.svg') no-repeat 30px center;
 
   display: block;
@@ -18,6 +11,7 @@
 
   margin: 1.5rem auto;
   padding: 1rem 1rem 1rem 5rem;
+  border: none;
   border-radius: 8px;
 
   color: var(--white);
@@ -25,5 +19,12 @@
 
 input::placeholder {
   color: var(--white);
+}
+
+@media(min-width: 600px) {
+  .nosubmit {
+    margin: 0;
+    width: 60%;
+  }
 }
 </style>

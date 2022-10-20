@@ -14,7 +14,7 @@
 
 <style scoped>
 .country {
-  width: 75%;
+  max-width: 250px;
   margin: 0 auto 3rem auto;
 
   border-radius: 8px;
@@ -46,5 +46,12 @@
 
 .country__info span {
   font-weight: 300;
+}
+
+@media(min-width: 600px) {
+  .country {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 </style>
