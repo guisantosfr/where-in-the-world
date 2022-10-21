@@ -9,7 +9,10 @@ import Header from '../components/Header.vue';
 import SearchBar from '../components/SearchBar.vue';
 
 const region = ref('');
+const searchValue = ref('');
+
 let homeCountriesList = ref([]);
+let searchCountriesList = ref([]);
 
 async function fetchRandomCountries() {
   let allCountriesList = [];
@@ -17,10 +20,34 @@ async function fetchRandomCountries() {
   await api.get('/all')
     .then(response => {
       allCountriesList = response.data;
-      const randomIndexes = getRandomNumbers(12, allCountriesList.length);
+      const randomIndexes = getRandomNumbers(24, allCountriesList.length);
 
       for (let index of randomIndexes) {
         homeCountriesList.value.push(allCountriesList[index]);
+      }
+    })
+    .catch(error => console.error(error));
+}
+
+async function handleSearch(search) {
+  searchCountriesList.value = [];
+  let allCountriesList = [];
+
+  await api.get(`/name/${search}`)
+    .then(response => {
+      allCountriesList = response.data;
+
+      if (allCountriesList.length > 24) {
+        const randomIndexes = getRandomNumbers(24, allCountriesList.length);
+
+        for (let index of randomIndexes) {
+          searchCountriesList.value.push(allCountriesList[index]);
+        }
+      }
+      else {
+        for (let country of allCountriesList) {
+          searchCountriesList.value.push((country));
+        }
       }
     })
     .catch(error => console.error(error));
@@ -34,7 +61,7 @@ onMounted(fetchRandomCountries);
   <Header />
 
   <div class="container">
-    <SearchBar />
+    <SearchBar v-model="searchValue" @blur="handleSearch(searchValue)" />
 
     <select v-model="region" class="region">
       <option value="" selected disabled hidden>Filter by region</option>
@@ -47,8 +74,13 @@ onMounted(fetchRandomCountries);
   </div>
 
   <ul class="countries__list">
-    <CountryCard v-for="country in homeCountriesList" :flag="country.flags.png" :name="country.name.common"
-      :population="country.population" :region="country.region" :capital="country.capital[0]" />
+    <CountryCard v-if="!searchValue" v-for="country in homeCountriesList" :flag="country.flags.png"
+      :name="country.name.common" :population="country.population" :region="country.region"
+      :capital="country.capital ? country.capital[0] : ' - '" />
+
+    <CountryCard v-if="searchValue" v-for="country in searchCountriesList" :flag="country.flags.png"
+      :name="country.name.common" :population="country.population" :region="country.region"
+      :capital="country.capital ? country.capital[0] : ' - '" />
   </ul>
 
 </template>

@@ -4,14 +4,14 @@ const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
 
 <template>
   <li class="country">
-    <img :src="props?.flag" :alt="`${props.name} flag`">
+    <img :src="props?.flag" :alt="`${props?.name} flag`">
 
     <div class="country__info">
-      <h3>{{ props.name }}</h3>
+      <h3>{{ props?.name }}</h3>
 
-      <p>Population: <span>{{ props.population }}</span></p>
-      <p>Region: <span>{{ props.region }}</span></p>
-      <p>Capital: <span>{{ props.capital }}</span></p>
+      <p>Population: <span>{{ props?.population }}</span></p>
+      <p>Region: <span>{{ props?.region }}</span></p>
+      <p>Capital: <span>{{ props?.capital }}</span></p>
     </div>
   </li>
 </template>
