@@ -7,12 +7,14 @@ import getRandomNumbers from '../helpers/getRandomNumbers';
 import CountryCard from '../components/CountryCard.vue';
 import Header from '../components/Header.vue';
 import SearchBar from '../components/SearchBar.vue';
+import Select from '../components/Select.vue';
 
 const region = ref('');
 const searchValue = ref('');
 
 let homeCountriesList = ref([]);
 let searchCountriesList = ref([]);
+let filterCountriesList = ref([]);
 
 async function fetchRandomCountries() {
   let allCountriesList = [];
@@ -31,6 +33,8 @@ async function fetchRandomCountries() {
 
 async function handleSearch(search) {
   searchCountriesList.value = [];
+  region.value = '';
+
   let allCountriesList = [];
 
   await api.get(`/name/${search}`)
@@ -46,11 +50,36 @@ async function handleSearch(search) {
       }
       else {
         for (let country of allCountriesList) {
-          searchCountriesList.value.push((country));
+          searchCountriesList.value.push(country);
         }
       }
     })
     .catch(error => console.error(error));
+}
+
+async function filterCountries(region) {
+  filterCountriesList.value = [];
+  searchValue.value = '';
+
+  let allCountriesList = [];
+
+  await api.get(`/region/${region}`)
+    .then(response => {
+      allCountriesList = response.data;
+
+      if (allCountriesList.length > 24) {
+        const randomIndexes = getRandomNumbers(24, allCountriesList.length);
+
+        for (let index of randomIndexes) {
+          filterCountriesList.value.push(allCountriesList[index]);
+        }
+      }
+      else {
+        for (let country of allCountriesList) {
+          filterCountriesList.value.push(country);
+        }
+      }
+    });
 }
 
 onMounted(fetchRandomCountries);
@@ -63,22 +92,19 @@ onMounted(fetchRandomCountries);
   <div class="container">
     <SearchBar v-model="searchValue" @blur="handleSearch(searchValue)" />
 
-    <select v-model="region" class="region">
-      <option value="" selected disabled hidden>Filter by region</option>
-      <option value="africa">Africa</option>
-      <option value="america">America</option>
-      <option value="asia">Asia</option>
-      <option value="europe">Europe</option>
-      <option value="oceania">Oceania</option>
-    </select>
+    <Select v-model="region" @change="filterCountries(region)" />
   </div>
 
   <ul class="countries__list">
-    <CountryCard v-if="!searchValue" v-for="country in homeCountriesList" :flag="country.flags.png"
+    <CountryCard v-if="!searchValue && !region" v-for="country in homeCountriesList" :flag="country.flags.png"
       :name="country.name.common" :population="country.population" :region="country.region"
       :capital="country.capital ? country.capital[0] : ' - '" />
 
-    <CountryCard v-if="searchValue" v-for="country in searchCountriesList" :flag="country.flags.png"
+    <CountryCard v-if="searchValue && !region" v-for="country in searchCountriesList" :flag="country.flags.png"
+      :name="country.name.common" :population="country.population" :region="country.region"
+      :capital="country.capital ? country.capital[0] : ' - '" />
+
+    <CountryCard v-if="region" v-for="country in filterCountriesList" :flag="country.flags.png"
       :name="country.name.common" :population="country.population" :region="country.region"
       :capital="country.capital ? country.capital[0] : ' - '" />
   </ul>
@@ -86,19 +112,6 @@ onMounted(fetchRandomCountries);
 </template>
 
 <style scoped>
-.region {
-  background: var(--dark-blue);
-  color: var(--white);
-
-  border: none;
-  padding: 1rem;
-
-  width: 60%;
-  border-radius: 8px;
-
-  border-right: 1rem solid transparent;
-}
-
 .countries__list {
   margin: 2rem auto;
 

@@ -1,14 +1,5 @@
 <script setup>
-import { ref } from 'vue';
-
 const props = defineProps(['searchValue']);
-/*
-const emit = defineEmits(['update:searchValue']);
-
-
-const val = ref(props.searchValue);
-
-const handleSearch = () => emit('update:searchValue', val.value); */
 </script>
 
 <template>
