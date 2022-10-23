@@ -4,12 +4,12 @@ const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
 
 <template>
   <li class="country">
-    <img :src="props?.flag" :alt="`${props?.name} flag`">
+    <img :src="props?.flag" :alt="`${props?.name} flag`" loading="lazy">
 
     <div class="country__info">
       <h3>{{ props?.name }}</h3>
 
-      <p>Population: <span>{{ props?.population }}</span></p>
+      <p>Population: <span>{{ props?.population.toLocaleString() }}</span></p>
       <p>Region: <span>{{ props?.region }}</span></p>
       <p>Capital: <span>{{ props?.capital }}</span></p>
     </div>
@@ -27,8 +27,6 @@ const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
 }
 
 .country img {
-  width: 100%;
-
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
@@ -38,8 +36,6 @@ const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
 }
 
 .country__info h3 {
-  font-size: 1.5rem;
-  font-weight: 800;
   margin-bottom: 1.5rem;
 }
 
