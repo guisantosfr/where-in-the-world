@@ -26,12 +26,12 @@ Users are able to:
 
 ### Screenshot
 
-[ADD SCREENSHOT HERE]
+![screenshot](https://user-images.githubusercontent.com/32960040/197558555-4caed6b9-9070-47a1-b789-5875f63f8c34.JPG)
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- [Solution URL](https://your-solution-url.com)
+- [Live Site URL](https://where-in-the-world-brown.vercel.app/)
 
 ## My process
 
