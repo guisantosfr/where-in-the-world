@@ -47,7 +47,7 @@ onMounted(async () => {
 
   <div class="container country" v-if="country">
     <router-link to="/" class="country__back">
-      <img :src="ArrowLeft" src="Back to home">
+      <img :src="ArrowLeft" alt="Back to home">
       Back
     </router-link>
 
