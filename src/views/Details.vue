@@ -51,67 +51,69 @@ onMounted(async () => {
       Back
     </router-link>
 
-    <img :src="country.flags.png" :alt="`${country.name.common} flag`" class="country__flag">
+    <div class="country__details">
+      <div>
+        <img :src="country.flags.png" :alt="`${country.name.common} flag`" class="country__flag">
+      </div>
 
-    <div class="country__info">
-      <h3>{{ country.name.common }}</h3>
+      <div class="country__info">
+        <div class="country__main-info">
+          <h3>{{ country.name.common }}</h3>
+          <div>
+            <span>Native name: </span>
+            <span>{{ country.name.nativeName[Object.keys(country.languages)[0]].common }}</span>
+          </div>
 
-      <div class="country__main-info">
-        <div>
-          <span>Native name: </span>
-          <span>{{ country.name.nativeName[Object.keys(country.languages)[0]].common }}</span>
+          <div>
+            <span>Population: </span>
+            <span>{{ country.population.toLocaleString() }}</span>
+          </div>
+
+          <div>
+            <span>Region: </span>
+            <span>{{ country.region }}</span>
+          </div>
+
+          <div>
+            <span>Sub Region: </span>
+            <span>{{ country.subregion }}</span>
+          </div>
+
+          <div>
+            <span>Capital: </span>
+            <span>{{ country.capital[0] }}</span>
+          </div>
         </div>
 
-        <div>
-          <span>Population: </span>
-          <span>{{ country.population.toLocaleString() }}</span>
+        <div class="country__more-info">
+          <div>
+            <span>Top Level Domain: </span>
+            <span>{{ country.tld[0] }}</span>
+          </div>
+
+          <div>
+            <span>Currencies: </span>
+            <span>{{ getCurrencies(country) }}</span>
+          </div>
+
+          <div>
+            <span>Languages: </span>
+            <span>{{ Object.values(country.languages).join(', ') }}</span>
+          </div>
         </div>
 
-        <div>
-          <span>Region: </span>
-          <span>{{ country.region }}</span>
-        </div>
+        <div class="country__border">
+          <h4>Border Countries:</h4>
 
-        <div>
-          <span>Sub Region: </span>
-          <span>{{ country.subregion }}</span>
-        </div>
+          <ul class="border__list" v-if="borderCountries">
+            <li v-for="borderCountry in borderCountries">{{ borderCountry }}</li>
+          </ul>
 
-        <div>
-          <span>Capital: </span>
-          <span>{{ country.capital[0] }}</span>
+          <p v-else>None</p>
         </div>
       </div>
 
-
-      <div class="country__more-info">
-        <div>
-          <span>Top Level Domain: </span>
-          <span>{{ country.tld[0] }}</span>
-        </div>
-
-        <div>
-          <span>Currencies: </span>
-          <span>{{ getCurrencies(country) }}</span>
-        </div>
-
-        <div>
-          <span>Languages: </span>
-          <span>{{ Object.values(country.languages).join(', ') }}</span>
-        </div>
-      </div>
-
-      <div class="country__border">
-        <h4>Border Countries:</h4>
-
-        <ul class="border__list" v-if="borderCountries">
-          <li v-for="borderCountry in borderCountries">{{ borderCountry }}</li>
-        </ul>
-
-        <p v-else>None</p>
-      </div>
     </div>
-
   </div>
 
 </template>
@@ -141,13 +143,17 @@ onMounted(async () => {
   width: 20%;
 }
 
-.country__flag {
-  width: 90%;
-  margin: 0 auto 2rem auto;
+.country__details {
+  margin: 0 1.5rem;
 }
 
-.country__info {
-  margin: 0 1.5rem;
+.country__flag {
+  display: flex;
+
+  width: 100%;
+  max-width: 450px;
+
+  margin: 0 auto 2rem auto;
 }
 
 .country__info h3 {
@@ -183,11 +189,51 @@ onMounted(async () => {
   margin: 2rem 0;
 
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 0 1rem;
 }
 
 .border__list li {
   margin-bottom: .5rem;
+}
+
+@media(min-width: 600px) {
+  .country__back {
+    width: 17.5%;
+    max-width: 120px;
+  }
+
+  .country__info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .country__border {
+    margin-top: 2.5rem;
+  }
+}
+
+@media(min-width: 900px) {
+  .country__details {
+    display: flex;
+    justify-content: space-around;
+
+    margin-top: 1rem;
+  }
+
+  .country__details div:first-child {
+    margin-right: 2rem;
+  }
+
+  .country__info {
+    justify-content: space-between;
+    width: 57.5%;
+  }
+
+  .country__more-info {
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+  }
 }
 </style>
