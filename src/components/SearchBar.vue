@@ -1,9 +1,10 @@
 <script setup>
-const props = defineProps(['searchValue']);
+//const props = defineProps(['searchValue']);
 </script>
 
 <template>
-  <input class="nosubmit" type="search" placeholder="Search for a country..." v-model="searchValue">
+  <input class="nosubmit" type="search" placeholder="Search for a country..."
+    @input="$emit('update:modelValue', $event.target.value)">
 </template>
 
 <style scoped>

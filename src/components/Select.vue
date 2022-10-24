@@ -1,9 +1,9 @@
 <script setup>
-const props = defineProps(['region']);
+//const props = defineProps(['region']);
 </script>
 
 <template>
-  <select v-model="region" class="region">
+  <select class="region" @input="$emit('update:modelValue', $event.target.value)">
     <option :value="undefined" selected disabled hidden>Filter by region</option>
     <option value="africa">Africa</option>
     <option value="america">America</option>
