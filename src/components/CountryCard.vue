@@ -4,15 +4,17 @@ const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
 
 <template>
   <li class="country">
-    <img :src="props?.flag" :alt="`${props?.name} flag`" loading="lazy">
+    <router-link :to="`/details/${props?.name}`">
+      <img :src="props?.flag" :alt="`${props?.name} flag`" loading="lazy">
 
-    <div class="country__info">
-      <h3>{{ props?.name }}</h3>
+      <div class="country__info">
+        <h3>{{ props?.name }}</h3>
 
-      <p>Population: <span>{{ props?.population.toLocaleString() }}</span></p>
-      <p>Region: <span>{{ props?.region }}</span></p>
-      <p>Capital: <span>{{ props?.capital }}</span></p>
-    </div>
+        <p>Population: <span>{{ props?.population.toLocaleString() }}</span></p>
+        <p>Region: <span>{{ props?.region }}</span></p>
+        <p>Capital: <span>{{ props?.capital }}</span></p>
+      </div>
+    </router-link>
   </li>
 </template>
 

@@ -1,48 +1,85 @@
 <script setup>
-import Header from '../components/Header.vue';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 
+import Header from '../components/Header.vue';
 import ArrowLeft from '../assets/icons/arrow-left.svg';
+
+import api from '../services/api';
+
+const route = useRoute();
+const country = ref();
+const borderCountries = ref();
+
+function getCurrencies(country) {
+  let currencies = ''
+
+  for (let currency of Object.entries(country.currencies)) {
+    currencies += currency[1].name;
+  }
+
+  return currencies;
+}
+
+async function getBorderCountries(borders) {
+  if (!borders) return;
+
+  await api.get(`/alpha?codes=${Object.values(borders).join()}`)
+    .then(response => {
+      borderCountries.value = response.data.map(country => country.name.common);
+    })
+    .catch(error => console.error(error));
+}
+
+onMounted(async () => {
+  await api.get(`/name/${route.params.countryName}`)
+    .then(response => {
+      country.value = response.data[0];
+      getBorderCountries(country.value.borders);
+    })
+    .catch(error => console.error(error));
+});
 
 </script>
 
 <template>
   <Header />
 
-  <div class="container country">
+  <div class="container country" v-if="country">
     <router-link to="/" class="country__back">
       <img :src="ArrowLeft" src="Back to home">
       Back
     </router-link>
 
-    <img src="https://flagcdn.com/w320/be.png" alt="Belgium flag" class="country__flag">
+    <img :src="country.flags.png" :alt="`${country.name.common} flag`" class="country__flag">
 
     <div class="country__info">
-      <h3>Belgium</h3>
+      <h3>{{ country.name.common }}</h3>
 
       <div class="country__main-info">
         <div>
           <span>Native name: </span>
-          <span>Belgie</span>
+          <span>{{ country.name.nativeName[Object.keys(country.languages)[0]].common }}</span>
         </div>
 
         <div>
           <span>Population: </span>
-          <span>11,319,511</span>
+          <span>{{ country.population.toLocaleString() }}</span>
         </div>
 
         <div>
           <span>Region: </span>
-          <span>Europe</span>
+          <span>{{ country.region }}</span>
         </div>
 
         <div>
           <span>Sub Region: </span>
-          <span>Western Europe</span>
+          <span>{{ country.subregion }}</span>
         </div>
 
         <div>
           <span>Capital: </span>
-          <span>Brussels</span>
+          <span>{{ country.capital[0] }}</span>
         </div>
       </div>
 
@@ -50,29 +87,28 @@ import ArrowLeft from '../assets/icons/arrow-left.svg';
       <div class="country__more-info">
         <div>
           <span>Top Level Domain: </span>
-          <span>.be</span>
+          <span>{{ country.tld[0] }}</span>
         </div>
 
         <div>
           <span>Currencies: </span>
-          <span>Euro</span>
+          <span>{{ getCurrencies(country) }}</span>
         </div>
 
         <div>
           <span>Languages: </span>
-          <span>Dutch, French, German</span>
+          <span>{{ Object.values(country.languages).join(', ') }}</span>
         </div>
       </div>
 
       <div class="country__border">
         <h4>Border Countries:</h4>
 
-        <div class="border__list">
-          <router-link to="/">France</router-link>
-          <router-link to="/">Germany</router-link>
-          <router-link to="/">Netherlands</router-link>
-        </div>
+        <ul class="border__list" v-if="borderCountries">
+          <li v-for="borderCountry in borderCountries">{{ borderCountry }}</li>
+        </ul>
 
+        <p v-else>None</p>
       </div>
     </div>
 
@@ -86,7 +122,8 @@ import ArrowLeft from '../assets/icons/arrow-left.svg';
   flex-direction: column;
 }
 
-.country a {
+.country a,
+.country li {
   padding: .5em 1em;
   background: var(--dark-blue);
   color: var(--white);
@@ -138,11 +175,19 @@ import ArrowLeft from '../assets/icons/arrow-left.svg';
   font-weight: 600;
 }
 
+.country__border p {
+  margin: 1rem 0;
+}
+
 .border__list {
   margin: 2rem 0;
 
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+}
+
+.border__list li {
+  margin-bottom: .5rem;
 }
 </style>

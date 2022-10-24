@@ -5,7 +5,7 @@ import Home from '../views/Home.vue';
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/details/', component: Details }
+  { path: '/details/:countryName', component: Details }
 ]
 
 const router = createRouter({
