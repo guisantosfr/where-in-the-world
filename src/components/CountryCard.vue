@@ -59,7 +59,7 @@ const props = defineProps(['flag', 'name', 'population', 'region', 'capital']);
 
 @media(min-width: 800px) {
   .country {
-    max-width: 275px;
+    max-width: 300px;
   }
 }
 </style>

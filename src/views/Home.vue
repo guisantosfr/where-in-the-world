@@ -90,7 +90,7 @@ onMounted(fetchRandomCountries);
   <Header />
 
   <div class="container">
-    <SearchBar v-model="searchValue" @blur="handleSearch(searchValue)" />
+    <SearchBar v-model="searchValue" @input="handleSearch(searchValue)" />
 
     <Select v-model="region" @change="filterCountries(region)" />
   </div>
@@ -108,7 +108,6 @@ onMounted(fetchRandomCountries);
       :name="country.name.common" :population="country.population" :region="country.region"
       :capital="country.capital ? country.capital[0] : ' - '" />
   </ul>
-
 </template>
 
 <style scoped>
